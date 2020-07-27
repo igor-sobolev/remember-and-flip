@@ -1,8 +1,9 @@
 import * as React from 'react';
-import styles from './App.module.scss';
+
 import { Board } from '../Board';
 
-interface AppProps {}
+import { AppProps } from './App.types';
+import styles from './App.module.scss';
 
 const App: React.FunctionComponent<AppProps> = () => {
   return (
