@@ -33,8 +33,4 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run lint`
 
-Lints the code in order with rules
-
-### `npm run lint:fix`
-
-Fixes all linting errors
+Lints the code in order with rules and fixes all linting errors

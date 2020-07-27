@@ -1,10 +1,13 @@
 import * as React from 'react';
 import styles from './App.module.scss';
+import { Board } from '../Board';
 
-const App = () => {
+interface AppProps {}
+
+const App: React.FunctionComponent<AppProps> = () => {
   return (
     <div className={styles.app}>
-      Hello world =)
+      <Board />
     </div>
   );
 };
