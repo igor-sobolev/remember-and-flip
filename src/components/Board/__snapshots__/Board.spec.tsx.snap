@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`given Board component should match the snapshot 1`] = `
+<div>
+  board
+</div>
+`;
