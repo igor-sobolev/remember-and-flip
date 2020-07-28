@@ -1,6 +1,6 @@
 import { Machine, assign } from 'xstate';
 
-import { FINAL_STATE, BOARD_MACHINE_ID, NUMBER_OF_TRIES } from '../../constants';
+import { FINAL_STATE, BOARD_MACHINE_ID, NUMBER_OF_TRIES, BOARD_COUNTDOWN_DELAY } from '../../constants';
 
 import {
   BoardStates,
@@ -17,6 +17,8 @@ const conditionalTransition = (target: string, cond: string) => ({
   cond
 });
 
+const directTransition = (target: string) => ({ target });
+
 export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
   {
     key: BOARD_MACHINE_ID,
@@ -27,25 +29,25 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
     states: {
       [BoardStates.INITIAL]: {
         on: {
-          [BoardEvents.NEXT]: BoardStates.COUNTDOWN
+          [BoardEvents.NEXT]: directTransition(BoardStates.COUNTDOWN)
         }
       },
       [BoardStates.COUNTDOWN]: {
-        on: {
-          [BoardEvents.NEXT]: [
+        after: {
+          BOARD_COUNTDOWN_DELAY: [
             conditionalTransition(BoardStates.PREVIEW, BoardGuards.IS_INITIAL_COUNTDOWN),
-            BoardStates.GAME
+            directTransition(BoardStates.GAME)
           ]
         }
       },
       [BoardStates.GAME]: {
         on: {
-          [BoardEvents.NEXT]: BoardStates.RESULT
+          [BoardEvents.NEXT]: directTransition(BoardStates.RESULT)
         }
       },
       [BoardStates.PREVIEW]: {
         on: {
-          [BoardEvents.NEXT]: BoardStates.COUNTDOWN
+          [BoardEvents.NEXT]: directTransition(BoardStates.COUNTDOWN)
         }
       },
       [BoardStates.RESULT]: {
@@ -53,7 +55,7 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
         on: {
           [BoardEvents.NEXT]: [
             conditionalTransition(BoardStates.COUNTDOWN, BoardGuards.HAS_TRIES_REMAINING),
-            BoardStates.FINISH
+            directTransition(BoardStates.FINISH)
           ]
         }
       },
@@ -75,6 +77,9 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
       [BoardActions.REDUCE_TRIES]: assign({
         elapsed: (context) => (context.elapsed > 0 ? context.elapsed - 1 : 0)
       })
+    },
+    delays: {
+      BOARD_COUNTDOWN_DELAY
     }
   }
 );
