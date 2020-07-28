@@ -32,8 +32,10 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
       },
       [BoardStates.COUNTDOWN]: {
         on: {
-          [BoardEvents.NEXT]: conditionalTransition(BoardStates.PREVIEW, BoardGuards.IS_INITIAL_COUNTDOWN),
-          [BoardEvents.NEXT]: BoardStates.GAME
+          [BoardEvents.NEXT]: [
+            conditionalTransition(BoardStates.PREVIEW, BoardGuards.IS_INITIAL_COUNTDOWN),
+            BoardStates.GAME
+          ]
         }
       },
       [BoardStates.GAME]: {
@@ -49,8 +51,10 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
       [BoardStates.RESULT]: {
         exit: [BoardActions.REDUCE_TRIES],
         on: {
-          [BoardEvents.NEXT]: conditionalTransition(BoardStates.COUNTDOWN, BoardGuards.HAS_TRIES_REMAINING),
-          [BoardEvents.NEXT]: BoardStates.FINISH
+          [BoardEvents.NEXT]: [
+            conditionalTransition(BoardStates.COUNTDOWN, BoardGuards.HAS_TRIES_REMAINING),
+            BoardStates.FINISH
+          ]
         }
       },
       [BoardStates.FINISH]: {
@@ -64,7 +68,7 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
         return context.elapsed !== 0;
       },
       [BoardGuards.IS_INITIAL_COUNTDOWN]: (context, event, { state }) => {
-        return state.matches(BoardStates.INITIAL) || state.matches(BoardStates.RESULT);
+        return !!(state.history?.matches(BoardStates.INITIAL) || state.history?.matches(BoardStates.RESULT));
       }
     },
     actions: {

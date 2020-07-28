@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import App from './App';
+import { App } from '.';
 
 describe('given App component', () => {
   let wrapper: ShallowWrapper;
