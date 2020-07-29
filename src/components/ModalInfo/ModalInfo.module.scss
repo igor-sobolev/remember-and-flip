@@ -1,0 +1,30 @@
+.modal-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+
+  &__message {
+    display: flex;
+    font-size: 3rem;
+    color: #777;
+    animation: fadeIn 1.5s ease-in;
+    font-weight: 300;
+  }
+
+  &--fixed {
+    position: fixed;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

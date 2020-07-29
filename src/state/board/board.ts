@@ -1,6 +1,13 @@
 import { Machine, assign } from 'xstate';
 
-import { FINAL_STATE, BOARD_MACHINE_ID, NUMBER_OF_TRIES, BOARD_COUNTDOWN_DELAY } from '../../constants';
+import {
+  FINAL_STATE,
+  BOARD_MACHINE_ID,
+  NUMBER_OF_TRIES,
+  BOARD_COUNTDOWN_DELAY,
+  BOARD_RESULT_DELAY,
+  BOARD_PREVIEW_DELAY
+} from '../../constants';
 
 import {
   BoardStates,
@@ -46,14 +53,14 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
         }
       },
       [BoardStates.PREVIEW]: {
-        on: {
-          [BoardEvents.NEXT]: directTransition(BoardStates.COUNTDOWN)
+        after: {
+          BOARD_PREVIEW_DELAY: directTransition(BoardStates.COUNTDOWN)
         }
       },
       [BoardStates.RESULT]: {
         exit: [BoardActions.REDUCE_TRIES],
-        on: {
-          [BoardEvents.NEXT]: [
+        after: {
+          BOARD_RESULT_DELAY: [
             conditionalTransition(BoardStates.COUNTDOWN, BoardGuards.HAS_TRIES_REMAINING),
             directTransition(BoardStates.FINISH)
           ]
@@ -79,7 +86,9 @@ export const boardMachine = Machine<BoardContext, BoardStateSchema, BoardEvent>(
       })
     },
     delays: {
-      BOARD_COUNTDOWN_DELAY
+      BOARD_COUNTDOWN_DELAY,
+      BOARD_RESULT_DELAY,
+      BOARD_PREVIEW_DELAY
     }
   }
 );

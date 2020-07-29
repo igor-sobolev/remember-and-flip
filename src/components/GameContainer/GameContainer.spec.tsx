@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
-import Board from './Board';
+import { GameContainer } from '.';
 
 describe('given Board component', () => {
   let wrapper: ShallowWrapper;
 
   beforeEach(() => {
-    wrapper = shallow(<Board />);
+    wrapper = shallow(<GameContainer />);
   });
 
   it('should match the snapshot', () => {

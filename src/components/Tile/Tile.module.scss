@@ -1,0 +1,33 @@
+.tile {
+  display: flex;
+  box-sizing: border-box;
+  border-radius: 4px;
+  background: #efefef;
+  box-shadow: 1px 0px 1px rgba(#000000, 0.16);
+  border: 1px solid #bfdaef;
+  &::after {
+    content: '?';
+    font-size: 2rem;
+    position: absolute;
+    transition: 0.1s;
+    top: 50%;
+    left: 50%;
+    color: rgba(#777, 0.3);
+    transform: translate(-50%, -50%);
+  }
+
+  &--filled {
+    border: none;
+    background-image: radial-gradient(circle farthest-side at center top, #47a9ff 0%, #bfdaef 100%);
+    &::after {
+      content: '';
+    }
+  }
+
+  &--wrong {
+    background: white;
+    &::after {
+      content: '';
+    }
+  }
+}
