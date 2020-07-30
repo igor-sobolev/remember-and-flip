@@ -66,6 +66,7 @@
     "rules": {
       "semi": "error",
       "eol-last": "error",
+      "curly": ["error", "multi-line"],
       "@typescript-eslint/no-empty-interface": 0,
       "quotes": [
         "error",

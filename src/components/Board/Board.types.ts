@@ -1,5 +1,10 @@
+import { Tile } from '../../state/game';
+
 export interface BoardProps {
-  boardSize: number;
+  boardWidth: number;
+  board: Tile[];
+  onFlip?: (index: number) => void;
   disabled?: boolean;
   preview?: boolean;
+  result?: boolean;
 }

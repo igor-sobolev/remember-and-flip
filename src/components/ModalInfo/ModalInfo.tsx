@@ -7,11 +7,9 @@ import styles from './ModalInfo.module.scss';
 
 const ModalInfo: React.FunctionComponent<ModalInfoProps> = (props: ModalInfoProps) => {
   const { fixed, children } = props;
-  console.log(styles);
   const classes = classnames(styles['modal-info'], {
     [styles['modal-info--fixed']]: fixed
   });
-  console.log('fixed', fixed);
 
   return (
     <div className={classes}>

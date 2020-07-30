@@ -2,6 +2,9 @@
   display: flex;
   flex-wrap: wrap;
   position: relative;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 0.5rem;
 
   &--disabled::after {
     content: '';
