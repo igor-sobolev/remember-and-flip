@@ -3,17 +3,27 @@
   box-sizing: border-box;
   border-radius: 4px;
   background: #efefef;
-  box-shadow: 1px 0px 1px rgba(#000000, 0.16);
+  box-shadow: 1px 0px 1px rgba(#000000, 0);
   border: 1px solid #bfdaef;
+  cursor: pointer;
+
   &::after {
     content: '?';
     font-size: 2rem;
     position: absolute;
-    transition: 0.1s;
+    transition: all 0.2s ease-in-out;
     top: 50%;
     left: 50%;
     color: rgba(#777, 0.3);
     transform: translate(-50%, -50%);
+  }
+
+  &:hover {
+    box-shadow: 1px 1px 2px rgba(#000000, 0.16);
+  }
+
+  &:hover::after {
+    color: rgba(#777, 1.0);
   }
 
   &--filled {
