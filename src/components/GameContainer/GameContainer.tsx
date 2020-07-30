@@ -42,7 +42,7 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   if (state.value === BoardStates.PREVIEW) {
     step = (
       <>
-        <Board boardSize={boardSize} disabled />
+        <Board boardSize={boardSize} disabled preview />
         <ModalInfo key="preview">
           <Countdown date={Date.now() + BOARD_PREVIEW_DELAY} renderer={countdownRenderer} />
         </ModalInfo>

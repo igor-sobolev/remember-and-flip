@@ -1,6 +1,7 @@
 export interface TileProps {
   filled: boolean;
   size: number;
+  flip: boolean;
   spacing?: number;
 }
 
