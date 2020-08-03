@@ -18,13 +18,19 @@ export enum GameEvents {
 export enum GameGuards {
   HAS_TRIES_REMAINING = 'hasTriesRemaining',
   HAS_GAMES_REMAINING = 'hasGamesRemaining',
-  IS_INITIAL_COUNTDOWN = 'isInitialCountDown'
+  IS_INITIAL_COUNTDOWN = 'isInitialCountDown',
+  HAS_BEEN_PREVIEWED = 'hasBeenPreviewed'
 }
 
 export enum GameActions {
   REDUCE_TRIES = 'reduceTries',
   REDUCE_GAMES = 'reduceGames',
-  INIT_BOARD = 'initBoard'
+  INIT_BOARD = 'initBoard',
+  PREVIEW_TILE = 'previewTile',
+  CANCEL_PREVIEW_PREVIOUS_TILE = 'cancelPreviewPreviousTile',
+  INCREASE_FLIP_INDEX = 'increaseFlipIndex',
+  RESET_FLIP_INDEX = 'resetFlipIndex',
+  RECORD_PREVIEW_START_TIME = 'recordPreviewStartTime'
 }
 
 export interface GameStateSchema {
@@ -45,6 +51,8 @@ export interface GameContext {
   gamesElapsed: number;
   board: Tile[];
   triesElapsed: number;
+  flipIndex: number;
+  previewStartTime: number;
 }
 
 export interface Tile {

@@ -7,12 +7,21 @@ import {
   BOARD_COUNTDOWN_DELAY,
   GAME_RESULT_DELAY,
   BOARD_PREVIEW_DELAY,
-  GAME_INIT_DELAY
+  TILE_PREVIEW_DELAY
 } from '../../constants';
 
 import { GameStates, GameStateSchema, GameEvent, GameContext, GameEvents, GameActions, GameGuards } from './game.types';
-import { hasTriesRemaining, isInitialCountdown, hasGamesRemaining } from './gameGuards';
-import { reduceTries, reduceGames, initBoard } from './gameActions';
+import { hasTriesRemaining, isInitialCountdown, hasGamesRemaining, hasBeenPreviewed } from './gameGuards';
+import {
+  reduceTries,
+  reduceGames,
+  initBoard,
+  previewTile,
+  cancelPreviewPreviousTile,
+  increaseFlipIndex,
+  resetFlipIndex,
+  recordPreviewStartTime
+} from './gameActions';
 
 const conditionalTransition = (target: string, cond: string, actions: string[] = []) => ({
   target,
@@ -20,7 +29,7 @@ const conditionalTransition = (target: string, cond: string, actions: string[] =
   actions
 });
 
-const directTransition = (target: string) => ({ target });
+const directTransition = (target: string, actions: string[] = []) => ({ target, actions });
 
 export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
   {
@@ -29,7 +38,9 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
     context: {
       gamesElapsed: NUMBER_OF_TRIES,
       board: [],
-      triesElapsed: 0
+      triesElapsed: 0,
+      flipIndex: 0,
+      previewStartTime: 0
     },
     states: {
       [GameStates.INITIAL]: {
@@ -40,16 +51,19 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
       [GameStates.GAME_INIT]: {
         entry: [GameActions.INIT_BOARD],
         after: {
-          GAME_INIT_DELAY: directTransition(GameStates.COUNTDOWN)
+          IMMEDIATE: directTransition(GameStates.COUNTDOWN)
         }
       },
       [GameStates.COUNTDOWN]: {
         after: {
           BOARD_COUNTDOWN_DELAY: [
-            conditionalTransition(GameStates.PREVIEW, GameGuards.IS_INITIAL_COUNTDOWN),
+            conditionalTransition(GameStates.PREVIEW, GameGuards.IS_INITIAL_COUNTDOWN, [
+              GameActions.RECORD_PREVIEW_START_TIME
+            ]),
             directTransition(GameStates.GAME)
           ]
-        }
+        },
+        exit: [GameActions.RESET_FLIP_INDEX]
       },
       [GameStates.GAME]: {
         entry: [GameActions.REDUCE_TRIES],
@@ -61,8 +75,12 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
         }
       },
       [GameStates.PREVIEW]: {
+        entry: [GameActions.PREVIEW_TILE, GameActions.CANCEL_PREVIEW_PREVIOUS_TILE],
         after: {
-          BOARD_PREVIEW_DELAY: directTransition(GameStates.COUNTDOWN)
+          TILE_PREVIEW_DELAY: [
+            conditionalTransition(GameStates.COUNTDOWN, GameGuards.HAS_BEEN_PREVIEWED),
+            directTransition(GameStates.PREVIEW, [GameActions.INCREASE_FLIP_INDEX])
+          ]
         }
       },
       [GameStates.RESULT]: {
@@ -83,18 +101,25 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
     guards: {
       [GameGuards.HAS_GAMES_REMAINING]: hasGamesRemaining,
       [GameGuards.HAS_TRIES_REMAINING]: hasTriesRemaining,
-      [GameGuards.IS_INITIAL_COUNTDOWN]: isInitialCountdown
+      [GameGuards.IS_INITIAL_COUNTDOWN]: isInitialCountdown,
+      [GameGuards.HAS_BEEN_PREVIEWED]: hasBeenPreviewed
     },
     actions: {
       [GameActions.REDUCE_GAMES]: reduceGames,
       [GameActions.REDUCE_TRIES]: reduceTries,
-      [GameActions.INIT_BOARD]: initBoard
+      [GameActions.INIT_BOARD]: initBoard,
+      [GameActions.PREVIEW_TILE]: previewTile,
+      [GameActions.CANCEL_PREVIEW_PREVIOUS_TILE]: cancelPreviewPreviousTile,
+      [GameActions.INCREASE_FLIP_INDEX]: increaseFlipIndex,
+      [GameActions.RESET_FLIP_INDEX]: resetFlipIndex,
+      [GameActions.RECORD_PREVIEW_START_TIME]: recordPreviewStartTime
     },
     delays: {
       BOARD_COUNTDOWN_DELAY,
       GAME_RESULT_DELAY,
       BOARD_PREVIEW_DELAY,
-      GAME_INIT_DELAY
+      TILE_PREVIEW_DELAY,
+      IMMEDIATE: 0
     }
   }
 );

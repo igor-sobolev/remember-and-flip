@@ -8,7 +8,7 @@ import { BoardProps } from './Board.types';
 import styles from './Board.module.scss';
 
 const Board: React.FunctionComponent<BoardProps> = (props: BoardProps) => {
-  const { boardWidth, disabled, preview, result, board, onFlip = (index: number) => index } = props;
+  const { boardWidth, disabled, result, board, onFlip = (index: number) => index } = props;
   const [tileSize, setTileSize] = useState(0);
   const [tiles, setTiles] = useState(board);
   const classes = classnames(styles.board, {
@@ -22,24 +22,6 @@ const Board: React.FunctionComponent<BoardProps> = (props: BoardProps) => {
   useEffect(() => {
     setTiles(board);
   }, [board]);
-
-  useEffect(() => {
-    if (preview) {
-      const revertFlipDelay = BOARD_PREVIEW_DELAY / tiles.length;
-      tiles.forEach((tile, index) => {
-        setTimeout(() => {
-          const newTile = { ...tile, flip: true };
-          setTiles([...tiles.slice(0, index), newTile, ...tiles.slice(index + 1)]);
-        }, revertFlipDelay * index);
-        setTimeout(() => {
-          const newTile = { ...tile, flip: false };
-          setTiles([...tiles.slice(0, index), newTile, ...tiles.slice(index + 1)]);
-        }, revertFlipDelay * (index + 1));
-      });
-    }
-    // eslint-disable-next-line
-    // @TODO: refactor may be
-  }, [preview]);
 
   useEffect(() => {
     if (result) {

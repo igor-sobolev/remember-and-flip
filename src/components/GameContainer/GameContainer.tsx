@@ -52,11 +52,12 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   }
 
   if (state.value === GameStates.PREVIEW) {
+    const now = state.context.previewStartTime;
     step = (
       <>
         <Board board={state.context.board} boardWidth={boardWidth} disabled preview />
         <ModalInfo key="preview">
-          <Countdown date={Date.now() + BOARD_PREVIEW_DELAY} renderer={countdownRenderer} />
+          <Countdown date={now + BOARD_PREVIEW_DELAY} renderer={countdownRenderer} />
         </ModalInfo>
       </>
     );
