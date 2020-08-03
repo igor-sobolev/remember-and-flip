@@ -10,11 +10,6 @@ export const reduceGames: AssignAction<GameContext, GameEvent> = assign((context
   gamesElapsed: context.gamesElapsed > 0 ? context?.gamesElapsed - 1 : 0
 }));
 
-export const reduceTries: AssignAction<GameContext, GameEvent> = assign((context: GameContext) => ({
-  ...context,
-  triesElapsed: context.triesElapsed > 0 ? context?.triesElapsed - 1 : 0
-}));
-
 export const initBoard: AssignAction<GameContext, GameEvent> = assign((context: GameContext) => {
   const [board, rightTileNumber] = generateBoard();
 
@@ -25,8 +20,39 @@ export const initBoard: AssignAction<GameContext, GameEvent> = assign((context: 
   };
 });
 
+export const unflipAll: AssignAction<GameContext, GameEvent> = assign((context: GameContext) => {
+  const { board } = context;
+
+  return {
+    ...context,
+    board: board.map((tile: Tile) => ({
+      ...tile,
+      flip: false
+    }))
+  };
+});
+
+export const flipExact: AssignAction<GameContext, GameEvent> = assign((context: GameContext, event: GameEvent) => {
+  const { board } = context;
+  const { index } = <{ index: number }>event;
+
+  if (board[index].flip) return context;
+
+  const newTile: Tile = {
+    ...board[index],
+    flip: true
+  };
+  const flippedInBoard = [...board.slice(0, index), newTile, ...board.slice(index + 1)];
+
+  return {
+    ...context,
+    board: flippedInBoard,
+    triesElapsed: context.triesElapsed > 0 ? context?.triesElapsed - 1 : 0
+  };
+});
+
 export const previewTile: AssignAction<GameContext, GameEvent> = assign((context: GameContext) => {
-  const { board, flipIndex }: { board: Tile[]; flipIndex: number } = context;
+  const { board, flipIndex } = context;
 
   if (flipIndex === Math.pow(BOARD_SIZE, 2)) return context;
 
@@ -43,7 +69,7 @@ export const previewTile: AssignAction<GameContext, GameEvent> = assign((context
 });
 
 export const cancelPreviewPreviousTile: AssignAction<GameContext, GameEvent> = assign((context: GameContext) => {
-  const { board, flipIndex }: { board: Tile[]; flipIndex: number } = context;
+  const { board, flipIndex } = context;
 
   if (flipIndex === 0) return context;
 

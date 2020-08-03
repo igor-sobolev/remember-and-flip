@@ -17,10 +17,9 @@ import { BOARD_PREVIEW_DELAY } from '../../constants';
 
 const GameContainer: React.FunctionComponent<BoardProps> = () => {
   const [state, send, service] = useMachine(gameMachine);
-  service.onTransition((state) => console.log(state.value, state.context)); // @TODO: remove when component is ready
-
   const [screenWidth, screenHeight] = useScreenSize();
   const [boardWidth, setBoardWidth] = useState(0);
+  service.onTransition(() => console.log(state.context));
 
   useEffect(() => {
     const lowestDimension = screenWidth < screenHeight ? screenWidth : screenHeight;
@@ -55,7 +54,7 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
     const now = state.context.previewStartTime;
     step = (
       <>
-        <Board board={state.context.board} boardWidth={boardWidth} disabled preview />
+        <Board board={state.context.board} boardWidth={boardWidth} disabled />
         <ModalInfo key="preview">
           <Countdown date={now + BOARD_PREVIEW_DELAY} renderer={countdownRenderer} />
         </ModalInfo>
@@ -85,8 +84,8 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   if (state.value === GameStates.RESULT) {
     step = (
       <>
-        <Board board={state.context.board} boardWidth={boardWidth} disabled result />
-        <ModalInfo key="countdown">Great!</ModalInfo>
+        <Board board={state.context.board} boardWidth={boardWidth} disabled />
+        <ModalInfo key="result">Great!</ModalInfo>
       </>
     );
   }
@@ -95,7 +94,7 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
     step = (
       <>
         <Board board={state.context.board} boardWidth={boardWidth} disabled />
-        <ModalInfo key="countdown">Congratulations!</ModalInfo>
+        <ModalInfo key="finish">Congratulations!</ModalInfo>
       </>
     );
   }

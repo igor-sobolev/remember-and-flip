@@ -6,8 +6,8 @@ export function hasGamesRemaining(context: GameContext): boolean {
   return context.gamesElapsed !== 0;
 }
 
-export function hasTriesRemaining(context: GameContext): boolean {
-  return context.triesElapsed !== 0;
+export function hasNoTriesRemaining(context: GameContext): boolean {
+  return context.triesElapsed === 0;
 }
 
 export function isInitialCountdown(context: GameContext, event: GameEvent, { state }: MetaObject): boolean {

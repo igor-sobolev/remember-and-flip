@@ -5,6 +5,4 @@ export interface BoardProps {
   board: Tile[];
   onFlip?: (index: number) => void;
   disabled?: boolean;
-  preview?: boolean;
-  result?: boolean;
 }

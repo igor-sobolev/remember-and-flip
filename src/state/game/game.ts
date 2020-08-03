@@ -11,16 +11,17 @@ import {
 } from '../../constants';
 
 import { GameStates, GameStateSchema, GameEvent, GameContext, GameEvents, GameActions, GameGuards } from './game.types';
-import { hasTriesRemaining, isInitialCountdown, hasGamesRemaining, hasBeenPreviewed } from './gameGuards';
+import { hasNoTriesRemaining, isInitialCountdown, hasGamesRemaining, hasBeenPreviewed } from './gameGuards';
 import {
-  reduceTries,
   reduceGames,
   initBoard,
   previewTile,
   cancelPreviewPreviousTile,
   increaseFlipIndex,
   resetFlipIndex,
-  recordPreviewStartTime
+  recordPreviewStartTime,
+  unflipAll,
+  flipExact
 } from './gameActions';
 
 const conditionalTransition = (target: string, cond: string, actions: string[] = []) => ({
@@ -66,12 +67,11 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
         exit: [GameActions.RESET_FLIP_INDEX]
       },
       [GameStates.GAME]: {
-        entry: [GameActions.REDUCE_TRIES],
+        after: {
+          IMMEDIATE: conditionalTransition(GameStates.RESULT, GameGuards.HAS_NO_TRIES_REMAINING)
+        },
         on: {
-          [GameEvents.FLIP]: [
-            conditionalTransition(GameStates.GAME, GameGuards.HAS_TRIES_REMAINING),
-            directTransition(GameStates.RESULT)
-          ]
+          [GameEvents.FLIP]: directTransition(GameStates.GAME, [GameActions.FLIP_EXACT])
         }
       },
       [GameStates.PREVIEW]: {
@@ -84,8 +84,11 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
         }
       },
       [GameStates.RESULT]: {
-        exit: [GameActions.REDUCE_TRIES],
+        exit: [GameActions.REDUCE_GAMES],
         after: {
+          UNFLIP_DELAY: {
+            actions: [GameActions.UNFLIP_ALL]
+          },
           GAME_RESULT_DELAY: [
             conditionalTransition(GameStates.GAME_INIT, GameGuards.HAS_GAMES_REMAINING),
             directTransition(GameStates.FINISH)
@@ -100,23 +103,25 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
   {
     guards: {
       [GameGuards.HAS_GAMES_REMAINING]: hasGamesRemaining,
-      [GameGuards.HAS_TRIES_REMAINING]: hasTriesRemaining,
+      [GameGuards.HAS_NO_TRIES_REMAINING]: hasNoTriesRemaining,
       [GameGuards.IS_INITIAL_COUNTDOWN]: isInitialCountdown,
       [GameGuards.HAS_BEEN_PREVIEWED]: hasBeenPreviewed
     },
     actions: {
       [GameActions.REDUCE_GAMES]: reduceGames,
-      [GameActions.REDUCE_TRIES]: reduceTries,
       [GameActions.INIT_BOARD]: initBoard,
       [GameActions.PREVIEW_TILE]: previewTile,
       [GameActions.CANCEL_PREVIEW_PREVIOUS_TILE]: cancelPreviewPreviousTile,
       [GameActions.INCREASE_FLIP_INDEX]: increaseFlipIndex,
       [GameActions.RESET_FLIP_INDEX]: resetFlipIndex,
-      [GameActions.RECORD_PREVIEW_START_TIME]: recordPreviewStartTime
+      [GameActions.RECORD_PREVIEW_START_TIME]: recordPreviewStartTime,
+      [GameActions.FLIP_EXACT]: flipExact,
+      [GameActions.UNFLIP_ALL]: unflipAll
     },
     delays: {
       BOARD_COUNTDOWN_DELAY,
       GAME_RESULT_DELAY,
+      UNFLIP_DELAY: GAME_RESULT_DELAY / 2,
       BOARD_PREVIEW_DELAY,
       TILE_PREVIEW_DELAY,
       IMMEDIATE: 0

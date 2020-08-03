@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import classnames from 'classnames';
 import ReactCardFlip from 'react-card-flip';
 
@@ -11,25 +11,18 @@ const TileCard: React.FunctionComponent<TileCardProps> = ({ options, className }
 );
 
 const Tile: React.FunctionComponent<TileProps> = (props: TileProps) => {
-  const { filled, size, spacing = 2, flip = false } = props;
-  const [isFlipped, setIsFlipped] = useState(false);
+  const { filled, size, spacing = 2, isFlipped = false } = props;
   const withFlip = classnames(styles.tile, {
     [styles['tile--filled']]: filled,
     [styles['tile--wrong']]: !filled
   });
   const options = { width: size - spacing * 2, height: size - spacing * 2, margin: spacing };
 
-  useEffect(() => {
-    setIsFlipped(flip);
-  }, [flip]);
-
   return (
-    <div onClick={() => setIsFlipped(!isFlipped)}>
-      <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-        <TileCard className={styles.tile} options={options} />
-        <TileCard className={withFlip} options={options} />
-      </ReactCardFlip>
-    </div>
+    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+      <TileCard className={styles.tile} options={options} />
+      <TileCard className={withFlip} options={options} />
+    </ReactCardFlip>
   );
 };
 
