@@ -84,7 +84,7 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
         }
       },
       [GameStates.RESULT]: {
-        exit: [GameActions.REDUCE_GAMES],
+        entry: [GameActions.REDUCE_GAMES],
         after: {
           UNFLIP_DELAY: {
             actions: [GameActions.UNFLIP_ALL]
