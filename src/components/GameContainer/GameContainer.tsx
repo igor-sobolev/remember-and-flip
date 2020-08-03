@@ -16,10 +16,9 @@ import styles from './GameContainer.module.scss';
 import { BOARD_PREVIEW_DELAY } from '../../constants';
 
 const GameContainer: React.FunctionComponent<BoardProps> = () => {
-  const [state, send, service] = useMachine(gameMachine);
+  const [state, send] = useMachine(gameMachine);
   const [screenWidth, screenHeight] = useScreenSize();
   const [boardWidth, setBoardWidth] = useState(0);
-  service.onTransition(() => console.log(state.context));
 
   useEffect(() => {
     const lowestDimension = screenWidth < screenHeight ? screenWidth : screenHeight;

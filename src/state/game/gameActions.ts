@@ -34,7 +34,7 @@ export const unflipAll: AssignAction<GameContext, GameEvent> = assign((context: 
 
 export const flipExact: AssignAction<GameContext, GameEvent> = assign((context: GameContext, event: GameEvent) => {
   const { board } = context;
-  const { index } = <{ index: number }>event;
+  const { index } = event as { index: number };
 
   if (board[index].flip) return context;
 
