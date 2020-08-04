@@ -11,7 +11,7 @@ import {
 } from '../../constants';
 
 import { GameStates, GameStateSchema, GameEvent, GameContext, GameEvents, GameActions, GameGuards } from './game.types';
-import { hasNoTriesRemaining, isInitialCountdown, hasGamesRemaining, hasBeenPreviewed } from './gameGuards';
+import { hasNoTriesRemaining, isInitialCountdown, hasGamesRemaining, hasBeenPreviewed } from './game.guards';
 import {
   reduceGames,
   initBoard,
@@ -22,7 +22,7 @@ import {
   recordPreviewStartTime,
   unflipAll,
   flipExact
-} from './gameActions';
+} from './game.actions';
 
 const conditionalTransition = (target: string, cond: string, actions: string[] = []) => ({
   target,
