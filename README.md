@@ -1,6 +1,25 @@
 Prototype of a game `Remember & Flip`
 
-## Available Scripts
+## Docker deployment
+
+[Docker installation guide (Ubuntu)](https://docs.docker.com/engine/install/ubuntu/)
+
+In root folder run
+```
+bash tools/docker/run-docker.sh
+```
+
+Build script
+```
+bash tools/docker/build-docker.sh
+```
+
+Stop script
+```
+bash tools/docker/stop-docker.sh
+```
+
+## Development mode
 
 In the project directory, you can run:
 
