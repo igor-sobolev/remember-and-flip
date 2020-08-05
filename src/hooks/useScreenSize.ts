@@ -5,7 +5,7 @@ export function useScreenSize(container?: RefObject<HTMLDivElement>): number[] {
   useLayoutEffect(() => {
     function updateSize() {
       const width = container?.current?.clientWidth ? container.current?.clientWidth : window.innerWidth;
-      const height = container?.current?.clientHeight ? container.current?.clientWidth : window.innerHeight;
+      const height = container?.current?.clientHeight ? container.current?.clientHeight : window.innerHeight;
       setSize([width, height]);
     }
     window.addEventListener('resize', updateSize);

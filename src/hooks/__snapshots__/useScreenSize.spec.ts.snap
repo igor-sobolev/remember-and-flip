@@ -17,3 +17,21 @@ Object {
   "waitForValueToChange": [Function],
 }
 `;
+
+exports[`Given useScreenSize hook when passed a container should match the snapshot 1`] = `
+Object {
+  "rerender": [Function],
+  "result": Object {
+    "current": Array [
+      125,
+      120,
+    ],
+    "error": undefined,
+  },
+  "unmount": [Function],
+  "wait": [Function],
+  "waitFor": [Function],
+  "waitForNextUpdate": [Function],
+  "waitForValueToChange": [Function],
+}
+`;
