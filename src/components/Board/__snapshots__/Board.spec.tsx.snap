@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given Board component when it is rendered should match the snapshot 1`] = `
+<div
+  className="board"
+  style={
+    Object {
+      "height": 1000,
+      "width": 1000,
+    }
+  }
+>
+  <div
+    data-qa="Board_tile_wrapper"
+    onClick={[Function]}
+  >
+    <Tile
+      isFilled={true}
+      isFlipped={false}
+      size={250}
+    />
+  </div>
+</div>
+`;

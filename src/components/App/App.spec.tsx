@@ -10,6 +10,6 @@ describe('given App component', () => {
   });
 
   it('should match the snapshot', () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.getElement()).toMatchSnapshot();
   });
 });

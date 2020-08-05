@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Given Tile component when it is rendered should match the snapshot 1`] = `
+<ReactCardFlip
+  cardStyles={
+    Object {
+      "back": Object {},
+      "front": Object {},
+    }
+  }
+  cardZIndex="auto"
+  containerStyle={Object {}}
+  flipDirection="horizontal"
+  flipSpeedBackToFront={0.6}
+  flipSpeedFrontToBack={0.6}
+  infinite={false}
+  isFlipped={true}
+>
+  <TileCard
+    className="tile"
+    options={
+      Object {
+        "height": 96,
+        "margin": 2,
+        "width": 96,
+      }
+    }
+  />
+  <TileCard
+    className="tile tile--filled"
+    options={
+      Object {
+        "height": 96,
+        "margin": 2,
+        "width": 96,
+      }
+    }
+  />
+</ReactCardFlip>
+`;

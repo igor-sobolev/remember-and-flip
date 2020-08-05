@@ -2,7 +2,7 @@ import * as React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 import { GameContainer } from '.';
 
-describe('given Board component', () => {
+describe('given GameContainer component', () => {
   let wrapper: ShallowWrapper;
 
   beforeEach(() => {
@@ -10,6 +10,6 @@ describe('given Board component', () => {
   });
 
   it('should match the snapshot', () => {
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper.getElement()).toMatchSnapshot();
   });
 });
