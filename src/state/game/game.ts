@@ -7,7 +7,9 @@ import {
   BOARD_COUNTDOWN_DELAY,
   GAME_RESULT_DELAY,
   BOARD_PREVIEW_DELAY,
-  TILE_PREVIEW_DELAY
+  TILE_PREVIEW_DELAY,
+  UNFLIP_DELAY,
+  IMMEDIATE
 } from '../../constants';
 
 import { GameStates, GameStateSchema, GameEvent, GameContext, GameEvents, GameActions, GameGuards } from './game.types';
@@ -121,10 +123,10 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
     delays: {
       BOARD_COUNTDOWN_DELAY,
       GAME_RESULT_DELAY,
-      UNFLIP_DELAY: GAME_RESULT_DELAY / 2,
+      UNFLIP_DELAY,
       BOARD_PREVIEW_DELAY,
       TILE_PREVIEW_DELAY,
-      IMMEDIATE: 0
+      IMMEDIATE
     }
   }
 );

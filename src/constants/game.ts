@@ -7,3 +7,5 @@ export const GAME_RESULT_DELAY = 2000;
 export const BOARD_PREVIEW_DELAY = 10000;
 export const GAME_REVEAL_DELAY = 350;
 export const TILE_PREVIEW_DELAY = BOARD_PREVIEW_DELAY / Math.pow(BOARD_SIZE, 2);
+export const UNFLIP_DELAY = GAME_RESULT_DELAY / 2;
+export const IMMEDIATE = 0;
