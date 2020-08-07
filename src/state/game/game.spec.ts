@@ -1,20 +1,27 @@
 import { gameMachine } from './game';
 import { GameStates, GameContext, GameEvent, GameStateSchema, GameEvents } from './game.types';
 import { interpret, State, Interpreter } from 'xstate';
-import { IMMEDIATE } from '../../constants';
+import { SimulatedClock } from 'xstate/lib/SimulatedClock';
+import { IMMEDIATE, GAME_RESULT_DELAY } from '../../constants';
 
-import * as gameContextMock from './game.mock.json';
+import * as gameContextMock from '../../mocks/gameContext.json';
+
+// jest.useFakeTimers();
+
+// const DATA_QA = 'GameContainer';
 
 describe('Given game machine', () => {
+  const clock = new SimulatedClock();
   let service: Interpreter<GameContext, GameStateSchema, GameEvent>;
 
-  beforeEach(() => {
-    jest.useFakeTimers();
-    service = interpret(gameMachine);
+  beforeAll(() => {
+    // jest.useFakeTimers();
+    service = interpret(gameMachine, { clock });
   });
 
-  afterEach(() => {
-    jest.clearAllTimers();
+  afterAll(() => {
+    // jest.clearAllTimers();
+    jest.restoreAllMocks();
   });
 
   describe('when user is on initial state', () => {
@@ -73,6 +80,10 @@ describe('Given game machine', () => {
         service.send({ type: GameEvents.FLIP, index: 0 });
       });
 
+      it('should have 5 tries left', () => {
+        expect(service.state.context.triesElapsed).toBe(5);
+      });
+
       it('should transition him to game step', () => {
         expect(service.state.value).toBe(GameStates.GAME);
       });
@@ -95,12 +106,44 @@ describe('Given game machine', () => {
           service.send({ type: GameEvents.FLIP, index: 4 });
           service.send({ type: GameEvents.FLIP, index: 5 });
 
-          jest.runTimersToTime(IMMEDIATE);
+          // jest.runTimersToTime(IMMEDIATE);
+          clock.increment(IMMEDIATE);
+        });
+
+        it('tries should be 0', () => {
+          expect(service.state.context.triesElapsed).toBe(0);
         });
 
         it('should redirect user to result state', () => {
           expect(service.state.value).toBe(GameStates.RESULT);
         });
+      });
+    });
+  });
+
+  describe('when user is on result step', () => {
+    beforeEach(() => {
+      const initialState = State.from<GameContext, GameEvent>(GameStates.RESULT, {
+        ...gameContextMock,
+        gamesElapsed: 0
+      });
+      service.start(initialState);
+    });
+
+    afterEach(() => {
+      service.stop();
+    });
+
+    describe('and game_result timer fires', () => {
+      beforeEach(() => {
+        console.log(service.state.value);
+        // jest.runTimersToTime(GAME_RESULT_DELAY);
+        clock.increment(GAME_RESULT_DELAY + 10000);
+        console.log(service.state.value);
+      });
+
+      xit('should transition him to finish step', () => {
+        expect(service.state.value).toBe(GameStates.FINISH);
       });
     });
   });

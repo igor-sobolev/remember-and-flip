@@ -12,10 +12,615 @@ exports[`given GameContainer component should match the snapshot 1`] = `
     />
     <ModalInfo>
       <Button
+        data-qa="GameContainer_next"
         onClick={[Function]}
       >
         Start
       </Button>
+    </ModalInfo>
+  </React.Fragment>
+</div>
+`;
+
+exports[`given GameContainer component when machine returns COUNTDOWN state should match the snapshot 1`] = `
+<div
+  className="game"
+>
+  <React.Fragment>
+    <Board
+      board={
+        Array [
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "18",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "19",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "20",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "21",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "22",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "23",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "24",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "25",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "26",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "27",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "28",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "29",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "30",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "31",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "32",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "33",
+          },
+        ]
+      }
+      boardWidth={0}
+      disabled={true}
+    />
+    <ModalInfo>
+      Ready!
+    </ModalInfo>
+  </React.Fragment>
+</div>
+`;
+
+exports[`given GameContainer component when machine returns FINISH state should match the snapshot 1`] = `
+<div
+  className="game"
+>
+  <React.Fragment>
+    <Board
+      board={
+        Array [
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "18",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "19",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "20",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "21",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "22",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "23",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "24",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "25",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "26",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "27",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "28",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "29",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "30",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "31",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "32",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "33",
+          },
+        ]
+      }
+      boardWidth={0}
+      disabled={true}
+    />
+    <ModalInfo>
+      Congratulations!
+    </ModalInfo>
+  </React.Fragment>
+</div>
+`;
+
+exports[`given GameContainer component when machine returns GAME state should match the snapshot 1`] = `
+<div
+  className="game"
+>
+  <Board
+    board={
+      Array [
+        Object {
+          "filled": true,
+          "flip": false,
+          "id": "18",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "19",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "20",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "21",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "22",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "23",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "24",
+        },
+        Object {
+          "filled": true,
+          "flip": false,
+          "id": "25",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "26",
+        },
+        Object {
+          "filled": true,
+          "flip": false,
+          "id": "27",
+        },
+        Object {
+          "filled": true,
+          "flip": false,
+          "id": "28",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "29",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "30",
+        },
+        Object {
+          "filled": false,
+          "flip": false,
+          "id": "31",
+        },
+        Object {
+          "filled": true,
+          "flip": false,
+          "id": "32",
+        },
+        Object {
+          "filled": true,
+          "flip": false,
+          "id": "33",
+        },
+      ]
+    }
+    boardWidth={0}
+    onFlip={[Function]}
+  />
+</div>
+`;
+
+exports[`given GameContainer component when machine returns GAME_INIT state should match the snapshot 1`] = `
+<div
+  className="game"
+>
+  <React.Fragment>
+    <Board
+      board={
+        Array [
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "18",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "19",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "20",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "21",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "22",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "23",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "24",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "25",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "26",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "27",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "28",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "29",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "30",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "31",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "32",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "33",
+          },
+        ]
+      }
+      boardWidth={0}
+      disabled={true}
+    />
+    <ModalInfo>
+      <Spinner />
+    </ModalInfo>
+  </React.Fragment>
+</div>
+`;
+
+exports[`given GameContainer component when machine returns PREVIEW state should match the snapshot 1`] = `
+<div
+  className="game"
+>
+  <React.Fragment>
+    <Board
+      board={
+        Array [
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "18",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "19",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "20",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "21",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "22",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "23",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "24",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "25",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "26",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "27",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "28",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "29",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "30",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "31",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "32",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "33",
+          },
+        ]
+      }
+      boardWidth={0}
+      disabled={true}
+    />
+    <ModalInfo>
+      <Countdown$1
+        autoStart={true}
+        controlled={false}
+        date={10000}
+        daysInHours={false}
+        intervalDelay={1000}
+        precision={0}
+        renderer={[Function]}
+        zeroPadTime={2}
+      />
+    </ModalInfo>
+  </React.Fragment>
+</div>
+`;
+
+exports[`given GameContainer component when machine returns RESULT state should match the snapshot 1`] = `
+<div
+  className="game"
+>
+  <React.Fragment>
+    <Board
+      board={
+        Array [
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "18",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "19",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "20",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "21",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "22",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "23",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "24",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "25",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "26",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "27",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "28",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "29",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "30",
+          },
+          Object {
+            "filled": false,
+            "flip": false,
+            "id": "31",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "32",
+          },
+          Object {
+            "filled": true,
+            "flip": false,
+            "id": "33",
+          },
+        ]
+      }
+      boardWidth={0}
+      disabled={true}
+    />
+    <ModalInfo>
+      Great!
     </ModalInfo>
   </React.Fragment>
 </div>

@@ -2,7 +2,7 @@ import { assign, AssignAction } from 'xstate';
 
 import { BOARD_SIZE } from '../../constants';
 
-import { GameContext, GameEvent, Tile } from './game.types';
+import { GameContext, GameEvent, Tile, GameEvents } from './game.types';
 import { uuid } from '../../components/utils';
 
 export const reduceGames: AssignAction<GameContext, GameEvent> = assign((context: GameContext) => ({
@@ -22,7 +22,6 @@ export const initBoard: AssignAction<GameContext, GameEvent> = assign((context: 
 
 export const unflipAll: AssignAction<GameContext, GameEvent> = assign((context: GameContext) => {
   const { board } = context;
-
   return {
     ...context,
     board: board.map((tile: Tile) => ({
@@ -34,7 +33,7 @@ export const unflipAll: AssignAction<GameContext, GameEvent> = assign((context: 
 
 export const flipExact: AssignAction<GameContext, GameEvent> = assign((context: GameContext, event: GameEvent) => {
   const { board } = context;
-  const { index } = event as { index: number };
+  const { index } = event as { index: number; type: GameEvents.FLIP };
 
   if (board[index].flip) return context;
 

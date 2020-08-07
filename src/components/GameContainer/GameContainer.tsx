@@ -15,6 +15,8 @@ import { BoardProps } from './GameContainer.types';
 import styles from './GameContainer.module.scss';
 import { BOARD_PREVIEW_DELAY } from '../../constants';
 
+const DATA_QA = 'GameContainer';
+
 const GameContainer: React.FunctionComponent<BoardProps> = () => {
   const [state, send] = useMachine(gameMachine);
   const [screenWidth, screenHeight] = useScreenSize();
@@ -32,7 +34,9 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
       <>
         <Board board={state.context.board} boardWidth={boardWidth} disabled />
         <ModalInfo key="start">
-          <Button onClick={() => send({ type: GameEvents.NEXT })}>Start</Button>
+          <Button data-qa={`${DATA_QA}_next`} onClick={() => send({ type: GameEvents.NEXT })}>
+            Start
+          </Button>
         </ModalInfo>
       </>
     );
