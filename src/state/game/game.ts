@@ -1,16 +1,6 @@
 import { Machine } from 'xstate';
 
-import {
-  FINAL_STATE,
-  GAME_MACHINE_ID,
-  NUMBER_OF_TRIES,
-  BOARD_COUNTDOWN_DELAY,
-  GAME_RESULT_DELAY,
-  BOARD_PREVIEW_DELAY,
-  TILE_PREVIEW_DELAY,
-  UNFLIP_DELAY,
-  IMMEDIATE
-} from '../../constants';
+import { FINAL_STATE, GAME_MACHINE_ID, NUMBER_OF_TRIES } from '../../constants';
 
 import { GameStates, GameStateSchema, GameEvent, GameContext, GameEvents, GameActions, GameGuards } from './game.types';
 import { hasNoTriesRemaining, isInitialCountdown, hasGamesRemaining, hasBeenPreviewed } from './game.guards';
@@ -53,13 +43,13 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
       },
       [GameStates.GAME_INIT]: {
         entry: [GameActions.INIT_BOARD],
-        after: {
-          IMMEDIATE: directTransition(GameStates.COUNTDOWN)
+        on: {
+          [GameEvents.NEXT]: directTransition(GameStates.COUNTDOWN)
         }
       },
       [GameStates.COUNTDOWN]: {
-        after: {
-          BOARD_COUNTDOWN_DELAY: [
+        on: {
+          [GameEvents.NEXT]: [
             conditionalTransition(GameStates.PREVIEW, GameGuards.IS_INITIAL_COUNTDOWN, [
               GameActions.RECORD_PREVIEW_START_TIME
             ]),
@@ -69,17 +59,15 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
         exit: [GameActions.RESET_FLIP_INDEX]
       },
       [GameStates.GAME]: {
-        after: {
-          IMMEDIATE: conditionalTransition(GameStates.RESULT, GameGuards.HAS_NO_TRIES_REMAINING)
-        },
         on: {
+          [GameEvents.NEXT]: conditionalTransition(GameStates.RESULT, GameGuards.HAS_NO_TRIES_REMAINING),
           [GameEvents.FLIP]: directTransition(GameStates.GAME, [GameActions.FLIP_EXACT])
         }
       },
       [GameStates.PREVIEW]: {
         entry: [GameActions.PREVIEW_TILE, GameActions.CANCEL_PREVIEW_PREVIOUS_TILE],
-        after: {
-          TILE_PREVIEW_DELAY: [
+        on: {
+          [GameEvents.NEXT]: [
             conditionalTransition(GameStates.COUNTDOWN, GameGuards.HAS_BEEN_PREVIEWED),
             directTransition(GameStates.PREVIEW, [GameActions.INCREASE_FLIP_INDEX])
           ]
@@ -87,11 +75,11 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
       },
       [GameStates.RESULT]: {
         entry: [GameActions.REDUCE_GAMES],
-        after: {
-          UNFLIP_DELAY: {
+        on: {
+          [GameEvents.UNFLIP_ALL]: {
             actions: [GameActions.UNFLIP_ALL]
           },
-          GAME_RESULT_DELAY: [
+          [GameEvents.NEXT]: [
             conditionalTransition(GameStates.GAME_INIT, GameGuards.HAS_GAMES_REMAINING),
             directTransition(GameStates.FINISH)
           ]
@@ -119,14 +107,6 @@ export const gameMachine = Machine<GameContext, GameStateSchema, GameEvent>(
       [GameActions.RECORD_PREVIEW_START_TIME]: recordPreviewStartTime,
       [GameActions.FLIP_EXACT]: flipExact,
       [GameActions.UNFLIP_ALL]: unflipAll
-    },
-    delays: {
-      BOARD_COUNTDOWN_DELAY,
-      GAME_RESULT_DELAY,
-      UNFLIP_DELAY,
-      BOARD_PREVIEW_DELAY,
-      TILE_PREVIEW_DELAY,
-      IMMEDIATE
     }
   }
 );

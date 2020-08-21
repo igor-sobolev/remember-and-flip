@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useMachine } from '@xstate/react';
 import Countdown from 'react-countdown';
+import debounce from 'lodash-es/debounce';
 
 import { gameMachine, GameEvents, GameStates } from '../../state/game';
 import { ModalInfo } from '../ModalInfo';
@@ -13,7 +14,14 @@ import { countdownRenderer } from '../utils';
 import { BoardProps } from './GameContainer.types';
 
 import styles from './GameContainer.module.scss';
-import { BOARD_PREVIEW_DELAY } from '../../constants';
+import {
+  BOARD_PREVIEW_DELAY,
+  IMMEDIATE,
+  TILE_PREVIEW_DELAY,
+  BOARD_COUNTDOWN_DELAY,
+  UNFLIP_DELAY,
+  GAME_RESULT_DELAY
+} from '../../constants';
 
 const DATA_QA = 'GameContainer';
 
@@ -22,19 +30,40 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   const [screenWidth, screenHeight] = useScreenSize();
   const [boardWidth, setBoardWidth] = useState(0);
 
+  const previewTile = useCallback(
+    debounce(() => send(GameEvents.NEXT), TILE_PREVIEW_DELAY),
+    []
+  );
+  const goNextImmediate = useCallback(
+    debounce(() => send(GameEvents.NEXT), IMMEDIATE),
+    []
+  );
+  const runCountdown = useCallback(
+    debounce(() => send(GameEvents.NEXT), BOARD_COUNTDOWN_DELAY),
+    []
+  );
+  const unflipAll = useCallback(
+    debounce(() => send(GameEvents.UNFLIP_ALL), UNFLIP_DELAY),
+    []
+  );
+  const goNextGameOrFinish = useCallback(
+    debounce(() => send(GameEvents.NEXT), GAME_RESULT_DELAY),
+    []
+  );
+
+  let step;
+
   useEffect(() => {
     const lowestDimension = screenWidth < screenHeight ? screenWidth : screenHeight;
     setBoardWidth(lowestDimension * 0.8);
   }, [screenWidth, screenHeight, setBoardWidth]);
-
-  let step;
 
   if (state.value === GameStates.INITIAL) {
     step = (
       <>
         <Board board={state.context.board} boardWidth={boardWidth} disabled />
         <ModalInfo key="start">
-          <Button data-qa={`${DATA_QA}_next`} onClick={() => send({ type: GameEvents.NEXT })}>
+          <Button data-qa={`${DATA_QA}_next`} onClick={() => send(GameEvents.NEXT)}>
             Start
           </Button>
         </ModalInfo>
@@ -43,6 +72,8 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   }
 
   if (state.value === GameStates.GAME_INIT) {
+    goNextImmediate();
+
     step = (
       <>
         <Board board={state.context.board} boardWidth={boardWidth} disabled />
@@ -54,6 +85,8 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   }
 
   if (state.value === GameStates.PREVIEW) {
+    previewTile();
+
     const now = state.context.previewStartTime;
     step = (
       <>
@@ -66,6 +99,8 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   }
 
   if (state.value === GameStates.COUNTDOWN) {
+    runCountdown();
+
     step = (
       <>
         <Board board={state.context.board} boardWidth={boardWidth} disabled />
@@ -75,6 +110,8 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   }
 
   if (state.value === GameStates.GAME) {
+    goNextImmediate();
+
     step = (
       <Board
         board={state.context.board}
@@ -85,6 +122,9 @@ const GameContainer: React.FunctionComponent<BoardProps> = () => {
   }
 
   if (state.value === GameStates.RESULT) {
+    unflipAll();
+    goNextGameOrFinish(); // @TODO: doesn't work simultaneouly??
+
     step = (
       <>
         <Board board={state.context.board} boardWidth={boardWidth} disabled />

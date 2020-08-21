@@ -12,7 +12,8 @@ export enum GameStates {
 
 export enum GameEvents {
   NEXT = 'next',
-  FLIP = 'flip'
+  FLIP = 'flip',
+  UNFLIP_ALL = 'unflip_all'
 }
 
 export enum GameGuards {
@@ -46,7 +47,10 @@ export interface GameStateSchema {
   };
 }
 
-export type GameEvent = { type: GameEvents.NEXT } | { type: GameEvents.FLIP; index: number };
+export type GameEvent =
+  | { type: GameEvents.NEXT }
+  | { type: GameEvents.UNFLIP_ALL }
+  | { type: GameEvents.FLIP; index: number };
 
 export interface GameContext {
   gamesElapsed: number;
