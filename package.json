@@ -15,7 +15,7 @@
     "classnames": "^2.2.6",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-card-flip": "^1.0.11",
     "react-countdown": "^2.2.1",
